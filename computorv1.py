@@ -35,50 +35,41 @@ def parsingEq(baseForm):
 
     return(reducedList)
 
+def fraction(up, down, iUp):
+    if '.' in str(up) or '.' in str(down):
+        print(str((up)/(down)))
+    else:
+        x = abs(up)  if abs(up) < abs(down) else abs(down)
+        while x > 0:
+            if abs(up) % x == 0 and abs(down) % x == 0:
+                up,down = up/x,down/x
+                if down == 1:
+                    print(str(int(up)))
+                else:
+                    print (str(int(up/x)) + '/' + str(int(down/x)))
+                break
+            x -= 1
+
 def secondPolynom(a, b, c):
     solution = []
     disc = b**2 - 4 * a * c
     racDisc = disc ** 0.5
     racDisc = int(racDisc) if racDisc % int(racDisc) == 0 else racDisc
     if disc < 0:
-        print("There are no solutions")
+        up, iUp = -b, - (b**2 - 4 * a * c) ** 0.5
+        down = 2 * a
+        fraction(up,down,iUp)
+        up, iUp = -b, (b**2 - 4 * a * c) ** 0.5
+        fraction(up,down,iUp)
+        print("There are no solutions in the reals")
     if disc == 0:
-        if '.' in str(-b) or '.' in str(2 * a):
-            print("The solution is : " + str(-b / 2 * a))
+        fraction(-b, 2*a)
     if disc > 0:
-        up = -b+racDisc
-        upBis = -b-racDisc
+        up,upBis = -b+racDisc,-b-racDisc
         down,downBis = 2 * a,2*a
         print("The solutions are : ")
-        if '.' in str(up) or '.' in str(down):
-            print(str((up)/(down)))
-        else:
-            x = abs(up)  if abs(up) < abs(down) else abs(down)
-            while x > 0:
-                if abs(up) % x == 0 and abs(down) % x == 0:
-                    up,down = up/x,down/x
-                    if down == 1:
-                        print(str(int(up)))
-                    else:
-                        print (str(int(up/x)) + '/' + str(int(down/x)))
-                    break
-                x -= 1
-            
-        if '.' in str(upBis) or '.' in str(downBis):
-            print(str((upBis)/(downBis)))
-        else:
-            x = abs(upBis) if abs(upBis) < abs(downBis) else abs(downBis)
-            while x > 0:
-                if abs(upBis) % x == 0 and abs(downBis) % x == 0:
-                    upBis,downBis = upBis/x,downBis/x
-                    if down == 1:
-                        print(str(int(upBis)))
-                    else:
-                        print (str(int(upBis/x)) + '/' + str(int(downBis/x)))
-                    break
-                x -= 1
-    return(solution)
-
+        fraction(up,down)
+        fraction(upBis,downBis)
 
 baseForm = sys.argv[1].split(' ')
 reducedList = parsingEq(baseForm)
