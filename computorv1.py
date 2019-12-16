@@ -35,8 +35,12 @@ def parsingEq(baseForm):
 
     return(reducedList)
 
-def fraction(up, down, iUp):
-    if '.' in str(up) or '.' in str(down):
+def fraction(up, down, iUp = 0):
+    if iUp != 0:
+        if iUp/down > 0: output = str(up/down) + ' + ' + str(iUp/down) + 'i'
+        else: output = str(up/down) + ' - ' + str(abs(iUp/down)) + 'i'
+        print(output)
+    elif '.' in str(up) or '.' in str(down):
         print(str((up)/(down)))
     else:
         x = abs(up)  if abs(up) < abs(down) else abs(down)
@@ -53,15 +57,17 @@ def fraction(up, down, iUp):
 def secondPolynom(a, b, c):
     solution = []
     disc = b**2 - 4 * a * c
-    racDisc = disc ** 0.5
+    racDisc = disc ** 0.5 if disc > 0 else abs(disc) ** 0.5
     racDisc = int(racDisc) if racDisc % int(racDisc) == 0 else racDisc
     if disc < 0:
-        up, iUp = -b, - (b**2 - 4 * a * c) ** 0.5
+        print("There are no solutions in the reals")
+        print("The complex solutions are :")
+        up, iUp = -b, - racDisc
         down = 2 * a
         fraction(up,down,iUp)
-        up, iUp = -b, (b**2 - 4 * a * c) ** 0.5
+        up, iUp = -b, racDisc
         fraction(up,down,iUp)
-        print("There are no solutions in the reals")
+        
     if disc == 0:
         fraction(-b, 2*a)
     if disc > 0:
@@ -71,6 +77,9 @@ def secondPolynom(a, b, c):
         fraction(up,down)
         fraction(upBis,downBis)
 
+if(len(sys.argv) < 2):
+    print("usage : python computorv1.py \"polynomial expression\"")
+    exit()
 baseForm = sys.argv[1].split(' ')
 reducedList = parsingEq(baseForm)
 outReduc = "Reduced form:"
