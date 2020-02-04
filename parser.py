@@ -10,6 +10,8 @@ def delete_whitespace(to_purge):
     for x in to_purge:
         if not x == ' ':
             purged += x
+    if purged == '=':
+        errorParsing("Not correct input")
     return purged
 
 def get_value(expressions,mult):
@@ -37,7 +39,7 @@ def fusionDict(dict1, dict2):
     for x in list(dict1):
         if dict1[x] == 0:
             dict1.pop(x)
-        elif dict1[x] % int(dict1[x]) == 0:
+        elif int(dict1[x]) != 0 and dict1[x] % int(dict1[x]) == 0:
             dict1[x] = int(dict1[x])
     reducedList = []
     for key in sorted(dict1):
@@ -62,6 +64,11 @@ def parsingEquation(all_str):
         errorParsing('Not correct input')
     before_equal = splited[0]
     after_equal = splited[1]
-    dict1 = get_value(before_equal, 1)
-    dict2 = get_value(after_equal, -1)
+    dict1,dict2 = {},{}
+    if before_equal == '0' and after_equal == '0':
+        errorParsing('Not correct input')
+    if before_equal != '0':
+        dict1 = get_value(before_equal, 1)
+    if after_equal != '0':
+        dict2 = get_value(after_equal, -1)
     return fusionDict(dict1,dict2)
