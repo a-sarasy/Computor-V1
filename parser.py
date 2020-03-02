@@ -15,14 +15,16 @@ def delete_whitespace(to_purge):
     return purged
 
 def get_value(expressions,mult):
+    if expressions == "":
+        errorParsing("Incorrect Expression")
     dict_return = {}
     x = re.search("^([+-]?[0-9]+(?:\.[0-9]+)?)\*X\^([0-9]+)",expressions)
     y = 0
     while y < len(expressions):    
         if x == None:
-            errorParsing("Expression incorrecte")
+            errorParsing("Incorrect Expression")
         y += x.span()[1]
-        if x.group(2)in dict_return.keys():
+        if int(x.group(2)) in dict_return.keys():
             dict_return[int(x.group(2))] += float(x.group(1)) * mult
         else:
             dict_return[int(x.group(2))] = float(x.group(1)) * mult

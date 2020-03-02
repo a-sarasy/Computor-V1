@@ -28,8 +28,9 @@ def fraction(up, down, iUp = 0):
 def secondPolynom(a, b, c):
     solution = []
     disc = b**2 - 4 * a * c
-    racDisc = disc ** 0.5 if disc > 0 else abs(disc) ** 0.5
-    racDisc = int(racDisc) if racDisc % int(racDisc) == 0 else racDisc
+    if disc != 0:
+        racDisc = disc ** 0.5 if disc > 0 else abs(disc) ** 0.5
+        racDisc = int(racDisc) if racDisc % int(racDisc) == 0 else racDisc
     if disc < 0:  
         print("Discriminant is strictly negative")     
         print("There are no solutions in the reals")
@@ -57,6 +58,9 @@ def computorv1():
         exit()
     reducedList = parsingEquation(sys.argv[1])
     polyNbr = len(reducedList) - 1
+    if polyNbr == -1:
+        polyNbr = 0
+        reducedList.append(0)
     print("Polynomial degree: " + str(polyNbr))
     if polyNbr > 2:
         print("The polynomial degree is stricly greater than 2, I can't solve.")
@@ -67,7 +71,11 @@ def computorv1():
         print("The solution is : ")
         fraction(-reducedList[0] , reducedList[1])
     if polyNbr == 0:
-        print("No unknown : all numbers are solutions")
+        if reducedList[0] == 0:
+            print("All numbers are solutions")
+        else:
+            print("Impossible to solve the equation")
+        
 
 if __name__ == "__main__":
     computorv1()
